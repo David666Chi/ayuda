@@ -1,0 +1,144 @@
+<!-- 
+  Template del componente SumaComponent para Angular v20
+  Muestra los parámetros de ruta y el resultado de la suma
+  Utiliza interpolación de Angular para enlazar datos del modelo con la vista
+-->
+<div class="suma-container">
+  
+  <!-- Título principal con descripción -->
+  <header class="header-section">
+    <h1>Calculadora de Suma</h1>
+    <p class="description">Operación de Suma con Parámetros de Ruta</p>
+  </header>
+
+  <!-- Sección principal de cálculo -->
+  <main class="calculation-main">
+    
+    <!-- Mostrar solo si hay números válidos y no hay errores -->
+    @if (primerNumero !== null && segundoNumero !== null && !error) {
+      <section class="calculation-section">
+        
+        <!-- Visualización de la operación matemática -->
+        <div class="operation-display">
+          <h2>Operación Matemática</h2>
+          <div class="math-expression">
+            <span class="number first-number">{{ primerNumero }}</span>
+            <span class="operator">+</span>
+            <span class="number second-number">{{ segundoNumero }}</span>
+            <span class="operator">=</span>
+            <span class="result">{{ resultado }}</span>
+          </div>
+        </div>
+
+        <!-- Detalles de los parámetros recibidos -->
+        <section class="parameters-section">
+          <h3>Parámetros Recibidos de la Ruta</h3>
+          
+          <div class="parameter-item">
+            <h4>Primer Número</h4>
+            <p class="parameter-value">{{ primerNumero }}</p>
+            <p class="parameter-description">Valor extraído del parámetro <code>:primerNumero</code> de la URL</p>
+          </div>
+
+          <div class="parameter-item">
+            <h4>Segundo Número</h4>
+            <p class="parameter-value">{{ segundoNumero }}</p>
+            <p class="parameter-description">Valor extraído del parámetro <code>:segundoNumero</code> de la URL</p>
+          </div>
+        </section>
+
+        <!-- Resultado de la suma -->
+        <section class="result-section">
+          <h3>Resultado de la Suma</h3>
+          <div class="result-display">
+            <p class="result-label">Total:</p>
+            <p class="result-value">{{ resultado }}</p>
+          </div>
+          <p class="result-description">
+            El resultado se calcula automáticamente sumando los dos parámetros recibidos de la ruta.
+          </p>
+        </section>
+
+      </section>
+    }
+
+    <!-- Sección de error -->
+    @if (error) {
+      <section class="error-section">
+        <h2>Error en el Procesamiento</h2>
+        <div class="error-content">
+          <p class="error-message">{{ error }}</p>
+          <p class="error-description">
+            Los parámetros de la ruta no pudieron ser procesados correctamente. 
+            Verifica que los valores sean números válidos.
+          </p>
+        </div>
+      </section>
+    }
+
+  </main>
+
+  <!-- Sección de navegación -->
+  <nav class="navigation-section">
+    <h3>Navegación</h3>
+    
+    <div class="nav-buttons">
+      <button 
+        class="nav-button primary" 
+        (click)="volverAlInicio()"
+        aria-label="Volver a la página principal">
+        ← Volver al Inicio
+      </button>
+    </div>
+
+    <div class="quick-calculations">
+      <h4>Prueba Otras Sumas</h4>
+      <p class="quick-description">Haz clic en los botones para probar diferentes operaciones:</p>
+      
+      <div class="quick-links-grid">
+        <button 
+          class="quick-link" 
+          (click)="navegarASuma(15, 25)"
+          title="Calcular 15 + 25">
+          <span class="operation">15 + 25</span>
+          <span class="expected-result">= 40</span>
+        </button>
+        
+        <button 
+          class="quick-link" 
+          (click)="navegarASuma(7, 13)"
+          title="Calcular 7 + 13">
+          <span class="operation">7 + 13</span>
+          <span class="expected-result">= 20</span>
+        </button>
+        
+        <button 
+          class="quick-link" 
+          (click)="navegarASuma(50, 50)"
+          title="Calcular 50 + 50">
+          <span class="operation">50 + 50</span>
+          <span class="expected-result">= 100</span>
+        </button>
+        
+        <button 
+          class="quick-link" 
+          (click)="navegarASuma(100, 200)"
+          title="Calcular 100 + 200">
+          <span class="operation">100 + 200</span>
+          <span class="expected-result">= 300</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Información técnica -->
+  <footer class="technical-info">
+    <h4>Información Técnica</h4>
+    <p>
+      Este componente utiliza <strong>interpolación de Angular</strong> para mostrar 
+      los valores de los parámetros de ruta en tiempo real. Los datos se enlazan 
+      automáticamente desde el modelo del componente hacia la vista.
+    </p>
+  </footer>
+
+</div>
