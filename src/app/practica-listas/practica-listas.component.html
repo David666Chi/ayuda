@@ -1,0 +1,255 @@
+<div class="practica-container">
+  <header class="practica-header">
+    <h1>Práctica: Listas</h1>
+    <p>
+      Explora cada ejercicio de la práctica utilizando el panel de navegación. Selecciona un tema
+      para ver su descripción y ejecutar las funciones solicitadas.
+    </p>
+  </header>
+
+  <div class="practica-layout">
+    <nav class="practica-nav">
+      <h2>Ejercicios</h2>
+      <ul>
+        <li *ngFor="let ejercicio of exercises">
+          <button
+            type="button"
+            (click)="seleccionarEjercicio(ejercicio.id)"
+            [class.activo]="selectedExercise === ejercicio.id"
+          >
+            <span class="titulo">{{ ejercicio.title }}</span>
+            <span class="descripcion">{{ ejercicio.description }}</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="practica-content">
+      <ng-container [ngSwitch]="selectedExercise">
+        <section *ngSwitchCase="'inventario'" class="card">
+          <h2>Productos disponibles y retiros</h2>
+          <p>
+            Añade productos a la lista, retíralos cuando sea necesario y reorganízalos arrastrando cada
+            elemento.
+          </p>
+
+          <form (ngSubmit)="agregarProducto()" class="formulario">
+            <label for="producto">Nombre del producto</label>
+            <div class="input-group">
+              <input
+                id="producto"
+                name="producto"
+                type="text"
+                [(ngModel)]="nuevoProducto"
+                placeholder="Ej. Pan integral"
+              />
+              <button type="submit">Agregar</button>
+            </div>
+          </form>
+
+          <div class="inventario" *ngIf="inventario.length; else inventarioVacio">
+            <h3>Productos disponibles</h3>
+            <div class="lista-arrastrable">
+              <article
+                *ngFor="let producto of inventario; let i = index"
+                draggable="true"
+                (dragstart)="iniciarArrastre(i, $event)"
+                (dragover)="permitirArrastre($event)"
+                (drop)="soltarProducto(i)"
+                (dragend)="cancelarArrastre()"
+                [class.arrastrando]="indiceEnArrastre === i"
+              >
+                <span>{{ producto }}</span>
+                <button type="button" (click)="retirarProducto(i)">Retirar</button>
+              </article>
+            </div>
+          </div>
+          <ng-template #inventarioVacio>
+            <p class="mensaje-ayuda">Aún no hay productos. Ingresa un nombre y presiona «Agregar».</p>
+          </ng-template>
+
+          <div class="historial" *ngIf="historialRetiros.length">
+            <h3>Últimos retiros</h3>
+            <ul>
+              <li *ngFor="let retiro of historialRetiros">{{ retiro }}</li>
+            </ul>
+          </div>
+        </section>
+
+        <section *ngSwitchCase="'pares-impares'" class="card">
+          <h2>Pares e impares</h2>
+          <p>Genera números aleatorios y observa cómo se separan en listas de pares e impares.</p>
+
+          <form (ngSubmit)="generarNumeros()" class="formulario">
+            <label for="cantidad">Cantidad de números (1 - 100)</label>
+            <div class="input-group">
+              <input
+                id="cantidad"
+                name="cantidad"
+                type="number"
+                min="1"
+                max="100"
+                [(ngModel)]="cantidadNumeros"
+              />
+              <button type="submit">Generar</button>
+            </div>
+          </form>
+
+          <div class="grid-dos-columnas" *ngIf="numerosAleatorios.length">
+            <article>
+              <h3>Lista generada</h3>
+              <p class="lista-valores">{{ numerosAleatorios.join(', ') }}</p>
+            </article>
+            <article>
+              <h3>Números pares</h3>
+              <p class="lista-valores" *ngIf="numerosPares.length; else sinPares">
+                {{ numerosPares.join(', ') }}
+              </p>
+              <ng-template #sinPares>
+                <p class="mensaje-ayuda">No se generaron números pares en esta ocasión.</p>
+              </ng-template>
+            </article>
+            <article>
+              <h3>Números impares</h3>
+              <p class="lista-valores" *ngIf="numerosImpares.length; else sinImpares">
+                {{ numerosImpares.join(', ') }}
+              </p>
+              <ng-template #sinImpares>
+                <p class="mensaje-ayuda">No se generaron números impares en esta ocasión.</p>
+              </ng-template>
+            </article>
+          </div>
+        </section>
+
+        <section *ngSwitchCase="'palabra-corta'" class="card">
+          <h2>Palabra más corta</h2>
+          <p>Introduce palabras separadas por comas, espacios o saltos de línea para encontrar la más corta.</p>
+
+          <div class="formulario">
+            <label for="palabras-cortas">Lista de palabras</label>
+            <textarea
+              id="palabras-cortas"
+              rows="5"
+              [(ngModel)]="palabrasPalabraCorta"
+              name="palabrasCortas"
+              placeholder="Ej. casa, mar, programación, sol"
+            ></textarea>
+            <button type="button" (click)="calcularPalabraMasCorta()">Calcular</button>
+          </div>
+
+          <div *ngIf="palabraMasCorta; else sinPalabraCorta" class="resultado">
+            <p>La palabra más corta es: <strong>{{ palabraMasCorta }}</strong></p>
+          </div>
+          <ng-template #sinPalabraCorta>
+            <p class="mensaje-ayuda">Escribe algunas palabras para realizar el cálculo.</p>
+          </ng-template>
+        </section>
+
+        <section *ngSwitchCase="'ordenar-palabras'" class="card">
+          <h2>Ordenar palabras por tamaño</h2>
+          <p>Entrega una lista de palabras y ordénala automáticamente de la más corta a la más larga.</p>
+
+          <div class="formulario">
+            <label for="palabras-ordenar">Lista de palabras</label>
+            <textarea
+              id="palabras-ordenar"
+              rows="5"
+              [(ngModel)]="palabrasParaOrdenar"
+              name="palabrasOrdenar"
+              placeholder="Ej. avión, tren, automóvil, bicicleta"
+            ></textarea>
+            <button type="button" (click)="ordenarPalabrasPorTamano()">Ordenar</button>
+          </div>
+
+          <div *ngIf="palabrasOrdenadas.length; else sinOrden">
+            <h3>Resultado</h3>
+            <ol>
+              <li *ngFor="let palabra of palabrasOrdenadas">{{ palabra }} ({{ palabra.length }} letras)</li>
+            </ol>
+          </div>
+          <ng-template #sinOrden>
+            <p class="mensaje-ayuda">Ingresa palabras para generar la lista ordenada.</p>
+          </ng-template>
+        </section>
+
+        <section *ngSwitchCase="'eliminar-duplicados'" class="card">
+          <h2>Eliminar palabras repetidas</h2>
+          <p>Ingresa una lista de palabras y quédate únicamente con aquellas que no se repitan.</p>
+
+          <div class="formulario">
+            <label for="palabras-duplicadas">Lista de palabras</label>
+            <textarea
+              id="palabras-duplicadas"
+              rows="5"
+              [(ngModel)]="palabrasDuplicadas"
+              name="palabrasDuplicadas"
+              placeholder="Ej. rojo, azul, rojo, verde, azul"
+            ></textarea>
+            <button type="button" (click)="eliminarPalabrasDuplicadas()">Limpiar duplicados</button>
+          </div>
+
+          <div *ngIf="palabrasSinDuplicados.length; else sinDuplicados">
+            <h3>Palabras únicas</h3>
+            <ul class="chips">
+              <li *ngFor="let palabra of palabrasSinDuplicados">{{ palabra }}</li>
+            </ul>
+          </div>
+          <ng-template #sinDuplicados>
+            <p class="mensaje-ayuda">Escribe palabras repetidas para ver el resultado.</p>
+          </ng-template>
+        </section>
+
+        <section *ngSwitchCase="'turnos-panaderia'" class="card">
+          <h2>Gestor de turnos (pilas)</h2>
+          <p>Simula un sistema de turnos para una panadería utilizando una estructura tipo cola.</p>
+
+          <form (ngSubmit)="agregarTurno()" class="formulario">
+            <label for="turno">Número de turno</label>
+            <div class="input-group">
+              <input
+                id="turno"
+                name="turno"
+                type="number"
+                min="1"
+                [(ngModel)]="nuevoTurno"
+                placeholder="Ej. 24"
+              />
+              <button type="submit">Agregar turno</button>
+            </div>
+          </form>
+
+          <div class="acciones-turnos">
+            <button type="button" (click)="atenderTurno()" [disabled]="!colaTurnos.length">
+              Atender siguiente turno
+            </button>
+          </div>
+
+          <div class="estado-turnos">
+            <div>
+              <h3>Turno atendido recientemente</h3>
+              <p *ngIf="ultimoTurnoAtendido !== null; else sinAtender">
+                Turno <strong>{{ ultimoTurnoAtendido }}</strong>
+              </p>
+              <ng-template #sinAtender>
+                <p class="mensaje-ayuda">Aún no se atienden turnos.</p>
+              </ng-template>
+            </div>
+            <div>
+              <h3>Turnos en espera</h3>
+              <p *ngIf="colaTurnos.length; else sinEspera" class="lista-valores">
+                {{ colaTurnos.join(' → ') }}
+              </p>
+              <ng-template #sinEspera>
+                <p class="mensaje-ayuda">La cola de turnos está vacía.</p>
+              </ng-template>
+            </div>
+          </div>
+        </section>
+
+        <section *ngSwitchDefault class="card">
+          <p>Selecciona un ejercicio para comenzar.</p>
+        </section>
+      </ng-container>
+    </section>
+  </div>
+</div>

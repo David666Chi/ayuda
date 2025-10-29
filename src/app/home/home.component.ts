@@ -35,6 +35,14 @@ import { RouterLink } from '@angular/router';
           </li>
         </ul>
       </div>
+
+      <div class="navigation-section">
+        <h2>Prácticas interactivas</h2>
+        <p>Explora los ejercicios de listas con una interfaz completa:</p>
+        <a routerLink="/practica-listas" class="nav-link destacado">
+          Abrir práctica de listas
+        </a>
+      </div>
     </div>
   `,
   styles: [`
@@ -71,6 +79,18 @@ import { RouterLink } from '@angular/router';
     
     .nav-link:hover {
       background-color: #0056b3;
+    }
+
+    .nav-link.destacado {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      margin-top: 0.75rem;
+    }
+
+    .nav-link.destacado:hover {
+      background: linear-gradient(135deg, #1e40af, #5b21b6);
     }
     
     ul {
