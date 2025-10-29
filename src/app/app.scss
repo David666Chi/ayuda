@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%);
+  color: #1f2933;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem clamp(1rem, 4vw, 3rem);
+  background: rgba(37, 99, 235, 0.08);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+}
+
+.app-nav {
+  display: flex;
+  gap: 1rem;
+
+  a {
+    text-decoration: none;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    color: #1f2933;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: rgba(29, 78, 216, 0.15);
+      color: #1d4ed8;
+    }
+
+    &.activo {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+    }
+  }
+}
+
+.app-main {
+  flex: 1;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 6vw, 4rem);
+}
+
+.app-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #64748b;
+  font-size: 0.95rem;
+  border-top: 1px solid #e2e8f0;
+  background: rgba(248, 250, 252, 0.9);
+
+  .version {
+    font-weight: 600;
+    color: #1d4ed8;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .app-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

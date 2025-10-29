@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { SumaComponent } from './suma/suma.component';
+import { PracticaListasComponent } from './practica-listas/practica-listas.component';
 
 /**
  * Configuración de rutas de la aplicación "navegacion-componentes"
@@ -29,10 +30,20 @@ export const routes: Routes = [
    * 
    * Ejemplo de URL: /suma/5/3
    */
-  { 
-    path: 'suma/:primerNumero/:segundoNumero', 
+  {
+    path: 'suma/:primerNumero/:segundoNumero',
     component: SumaComponent,
     title: 'Calculadora de Suma'
+  },
+
+  /**
+   * Ruta para la práctica de listas
+   * Permite acceder al catálogo interactivo de ejercicios
+   */
+  {
+    path: 'practica-listas',
+    component: PracticaListasComponent,
+    title: 'Práctica de Listas'
   },
   
   /**

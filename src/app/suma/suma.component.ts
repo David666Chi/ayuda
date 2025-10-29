@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 /**
@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-suma',
   standalone: true,
-  imports: [RouterLink],
   templateUrl: './suma.component.html',
   styleUrl: './suma.component.scss'
 })
